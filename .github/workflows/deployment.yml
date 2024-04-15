@@ -23,4 +23,4 @@ jobs:
           sudo lsof -t -i:8080 | xargs -r kill || true
           # Start the new instance
           cd /home/projects/backend/build/libs
-          nohup java -jar backend-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &
+          nohup java -jar backend-0.0.1-SNAPSHOT.jar &
