@@ -8,14 +8,27 @@ on:
 jobs:
   build_and_deploy:
     runs-on: self-hosted
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
 
       - name: Build with Gradle
         run: |
           cd /home/projects/backend
           ./gradlew build
+
+      - name: Prepare Environment
+        run: |
+          sudo kill $(sudo lsof -t -i:8080) || true
+          echo "Existing application process on port 8080 killed (if any)."
 
       - name: Restart server
         run: |
