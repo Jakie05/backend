@@ -17,21 +17,10 @@ jobs:
           cd /home/projects/backend
           ./gradlew build
 
-      - name: Prepare backend zip
-        run: |
-          cd /home/projects/backend
-          zip -r backend.zip ./build/libs/*SNAPSHOT.jar
-
-      - name: Copy build artifacts to target directory
-        run: |
-          mkdir -p /home/projects/backend/target
-          cp backend.zip /home/projects/backend/target/
-
       - name: Restart server
         run: |
-          cd /home/projects/backend/target
-          unzip -o backend.zip
-          ls -al backend
+          cd /home/projects/backend/build/libs
+          ls -al
           pid=$(pgrep -f "java -jar *SNAPSHOT.jar")
           if [ -n "$pid" ]; then
             echo "Stopping existing instance of the application with PID $pid"
