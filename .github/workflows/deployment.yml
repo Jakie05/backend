@@ -20,7 +20,7 @@ jobs:
       - name: Prepare backend zip
         run: |
           cd /home/projects/backend
-          zip -r backend.zip ./build/libs/*.jar
+          zip -r backend.zip ./build/libs/*SNAPSHOT.jar
 
       - name: Copy build artifacts to target directory
         run: |
@@ -35,4 +35,9 @@ jobs:
         run: |
           cd /home/projects/backend/target
           unzip -o backend.zip
-          nohup java -jar ./build/libs/backend-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &
+          pid=$(pgrep -f "java -jar *SNAPSHOT.jar")
+          if [ -n "$pid" ]; then
+            echo "Stopping existing instance of the application with PID $pid"
+            kill $pid
+          fi
+          nohup java -jar *SNAPSHOT.jar > /dev/null 2>&1 &
