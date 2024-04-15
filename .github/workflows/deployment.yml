@@ -27,14 +27,11 @@ jobs:
           mkdir -p /home/projects/backend/target
           cp backend.zip /home/projects/backend/target/
 
-      - name: Stop existing application
-        run: |
-          sudo lsof -t -i:8080 | xargs -r kill || true
-
       - name: Restart server
         run: |
           cd /home/projects/backend/target
           unzip -o backend.zip
+          ls -al backend
           pid=$(pgrep -f "java -jar *SNAPSHOT.jar")
           if [ -n "$pid" ]; then
             echo "Stopping existing instance of the application with PID $pid"
