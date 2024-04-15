@@ -21,6 +21,6 @@ jobs:
         run: |
           # Kill the process running on port 8080
           sudo lsof -t -i:8080 | xargs -r kill || true
-          # Start the new instance
+          # Start the new instance in the background with nohup and logging
           cd /home/projects/backend/build/libs
-          nohup java -jar backend-0.0.1-SNAPSHOT.jar &
+          nohup sudo java -jar *SNAPSHOT.jar > app.log 2>&1 &
